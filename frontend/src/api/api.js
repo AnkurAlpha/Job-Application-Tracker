@@ -23,3 +23,4 @@ export const applyForJob = async(data) => {
     if ( !res.ok ) throw new Error("Failed to fetch jobs") ;
     return res.json() ;
 }
+console.log("VITE_API_URL =", import.meta.env.VITE_API_URL);
