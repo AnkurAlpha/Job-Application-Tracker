@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 const express = require("express");
 const cors = require("cors");
 
@@ -17,10 +19,10 @@ app.use(express.json());
 // ];
 
 app.get("/health", (req, res) => res.json({ ok: true }));
-app.use("/jobs",jobRoutes) ;
-app.use("/applications",applicationRoutes)
+app.use("/jobs", jobRoutes);
+app.use("/applications", applicationRoutes)
 
-app.listen(PORT,() => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 //
 // app.get("/jobs", (req, res) => res.json(jobs));
 //
