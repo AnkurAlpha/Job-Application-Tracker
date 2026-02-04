@@ -5,4 +5,3 @@ router.post("/", createApplication);
 router.get("/", listApplications); // for dashboard later
 
 module.exports = router;
-
