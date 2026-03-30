@@ -5,19 +5,33 @@ import JobDetails from "./pages/JobDetails.jsx";
 import Apply from "./pages/Apply.jsx";
 import Layout from "./components/Layout.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import Login from "./pages/Login.jsx";
+import AdminCreateJob from "./pages/AdminCreateJob.jsx";
+import NotFound from "./pages/NotFound.jsx";
+import { RequireAdmin } from "./auth/ProtectedRoute.jsx";
 
 const App = () => {
-    return (
-        <Layout>
-            <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/jobs" element={<Jobs />} />
-            <Route path="/jobs/:id" element={<JobDetails />} />
-            <Route path="/apply/:id" element={<Apply />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
-        </Layout>
-    )
-}
+  return (
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/jobs/:id" element={<JobDetails />} />
+        <Route path="/apply/:id" element={<Apply />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/admin/create-job"
+          element={
+            <RequireAdmin>
+              <AdminCreateJob />
+            </RequireAdmin>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Layout>
+  );
+};
 
 export default App;

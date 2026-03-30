@@ -44,7 +44,7 @@ const Jobs = () => {
                     Total: <span className="font-semibold text-slate-900">{jobs.length}</span>
                 </div>
             </div>
-            {jobs.length == 0 ? (
+            {jobs.length === 0 ? (
                 <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                     <p className="text-sm font-semibold">No jobs yet</p>
                     <p className="mt-1 text-sm text-slate-600">
@@ -55,7 +55,6 @@ const Jobs = () => {
                 <>
                     <div className="grid gap-4 md:grid-cols-2">
                         {jobs.map((job) => (
-                            <>
                                 <div className="rounded-2xl border border-slate-200
                                 bg-white p-6 shadow-sm" key={job.id}>
                                     <h3 className="text-base font-bold text-slate-900">
@@ -70,7 +69,6 @@ const Jobs = () => {
                                         font-semibold text-emerald-700">View</Link>
                                     </div>
                                 </div>
-                            </>
                         ))}
                     </div>
                 </>

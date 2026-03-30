@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom"
+import { useAuth } from "../auth/AuthContext"
 
 const Navbar = () => {
+    const { isAdmin, isAuthenticated, logout } = useAuth();
     const linkClass = ({isActive}) => "rounded-xl px-3 py-2 text-sm font-medium " +
         "duration-500 transition ease-in-out"+
             (isActive?" bg-black text-white  hover:bg-gradient-to-r hover:from-indigo-700"+
@@ -17,8 +19,14 @@ const Navbar = () => {
         from-indigo-500 via-purple-500 to-pink-500 py-2 px-2">
                 <NavLink to="/" className={linkClass}>Home</NavLink>
                 <NavLink to="/jobs" className={linkClass}>Jobs</NavLink>
-                <NavLink to="/apply" className={linkClass}>Apply</NavLink>
                 <NavLink to="/dashboard" className={linkClass}>Dashboard</NavLink>
+                {isAdmin ? <NavLink to="/admin/create-job" className={linkClass}>+ Create Job</NavLink> : null}
+                {!isAuthenticated ? <NavLink to="/login" className={linkClass}>Login</NavLink> : null}
+                {isAuthenticated ? (
+                  <button type="button" onClick={logout} className="rounded-xl px-3 py-2 text-sm font-medium text-white hover:bg-black/20 transition duration-500 ease-in-out">
+                    Logout
+                  </button>
+                ) : null}
             </nav>
         </header>
         </>
