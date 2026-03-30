@@ -45,6 +45,18 @@ export const loginAdmin = async (credentials) => {
   return res.json();
 };
 
+export const signupAdmin = async (credentials) => {
+  const res = await fetch(`${API_URL}/auth/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(credentials),
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Signup failed"));
+  return res.json();
+};
+
 export const createJob = async ({ title, description, token }) => {
   const res = await fetch(`${API_URL}/jobs`, {
     method: "POST",

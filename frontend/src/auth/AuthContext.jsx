@@ -16,9 +16,26 @@ function decodePayload(token) {
   }
 }
 
+function isTokenUsable(token) {
+  const payload = decodePayload(token);
+  if (!payload) return false;
+  if (!payload.exp) return true;
+  const now = Math.floor(Date.now() / 1000);
+  return payload.exp > now;
+}
+
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem(STORAGE_KEY));
+  const [token, setToken] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved && isTokenUsable(saved) ? saved : null;
+  });
   const user = useMemo(() => (token ? decodePayload(token) : null), [token]);
+
+  useEffect(() => {
+    if (token && !isTokenUsable(token)) {
+      setToken(null);
+    }
+  }, [token]);
 
   useEffect(() => {
     if (!token) {

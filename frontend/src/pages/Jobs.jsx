@@ -1,80 +1,69 @@
-import { useEffect, useState } from "react"
-import { getJobs } from "../api/api.js"
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getJobs } from "../api/api.js";
+
 const Jobs = () => {
-    const [jobs, setJobs] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    useEffect(() => {
-        getJobs()
-            .then(setJobs)
-            .catch(err => setError(err.message))
-            .finally(() => setLoading(false));
-    }, []);
-    if (loading) return (
-        <>
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p className="text-sm font-semibold">Loading jobs...</p>
-                <p className="mt-1 text-sm text-slate-500">
-                    Fetching from backend
-                </p>
-            </div>
-        </>
-    );
-    if (error) return (
-        <>
-            <div className="rounded-2xl border border-red-200 bg-red-50 p-6">
-                <p className="text-sm font-semibold text-red-800"> Error </p>
-                <p className="mt-1 text-sm text-red-700">{error}</p>
-            </div>
-        </>
-    );
+  useEffect(() => {
+    getJobs()
+      .then(setJobs)
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
     return (
-        <div>
-            <div className="mb-5 flex items-end justify-between">
-                <div>
-                    <h1 className="text-2xl font-bold">Jobs</h1>
-                    <p className="mt-1 text-sm text-slate-600">
-                        Click a job to view details and apply.
-                    </p>
-                </div>
-                <div className="rounded-xl bg-white px-4 py-2 text-sm
-        text-slate-600 shadow-sm ring-slate-200">
-                    Total: <span className="font-semibold text-slate-900">{jobs.length}</span>
-                </div>
-            </div>
-            {jobs.length === 0 ? (
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <p className="text-sm font-semibold">No jobs yet</p>
-                    <p className="mt-1 text-sm text-slate-600">
-                        Add jobs from backend or spend your DB.
-                    </p>
-                </div>
-            ) : (
-                <>
-                    <div className="grid gap-4 md:grid-cols-2">
-                        {jobs.map((job) => (
-                                <div className="rounded-2xl border border-slate-200
-                                bg-white p-6 shadow-sm" key={job.id}>
-                                    <h3 className="text-base font-bold text-slate-900">
-                                        {job.title}
-                                    </h3>
-                                    <p className="mt-2 line-clamp-3 text-sm text-slate-600">
-                                        {job.description || "No description provided"}
-                                    </p>
-                                    <div className="mt-4 flex items-center justify-end">
-                                        <Link to={`/jobs/${job.id}`} className="rounded-full
-                                        bg-emerald-50 px-3 py-1 text-xs
-                                        font-semibold text-emerald-700">View</Link>
-                                    </div>
-                                </div>
-                        ))}
-                    </div>
-                </>
-            )}
-        </div>
-    )
-}
+      <div className="soft-panel rounded-2xl p-6">
+        <p className="text-sm font-semibold text-slate-900">Loading jobs...</p>
+        <p className="mt-1 text-sm text-slate-600">Fetching latest postings from backend.</p>
+      </div>
+    );
+  }
 
-export default Jobs
+  if (error) {
+    return (
+      <div className="rounded-2xl border border-red-200 bg-red-50 p-6">
+        <p className="text-sm font-semibold text-red-800">Error</p>
+        <p className="mt-1 text-sm text-red-700">{error}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-5">
+      <div className="glass-card flex flex-wrap items-end justify-between gap-3 rounded-2xl p-6">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Open Jobs</h1>
+          <p className="mt-1 text-sm text-slate-600">Browse available roles and open the detail view to apply.</p>
+        </div>
+        <div className="badge">{jobs.length} total</div>
+      </div>
+
+      {jobs.length === 0 ? (
+        <div className="soft-panel rounded-2xl p-6">
+          <p className="text-sm font-semibold text-slate-900">No jobs yet</p>
+          <p className="mt-1 text-sm text-slate-600">Add jobs from the backend seed or admin panel.</p>
+        </div>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {jobs.map((job) => (
+            <article key={job.id} className="soft-panel rounded-2xl p-5 transition hover:-translate-y-0.5 hover:shadow-lg">
+              <p className="text-base font-bold text-slate-900">{job.title}</p>
+              <p className="mt-2 text-sm text-slate-600">{job.description || "No description provided."}</p>
+              <div className="mt-4 flex justify-end">
+                <Link to={`/jobs/${job.id}`} className="btn btn-secondary !rounded-full !px-4 !py-1.5 !text-xs">
+                  View Role
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Jobs;

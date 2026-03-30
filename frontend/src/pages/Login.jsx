@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { loginAdmin } from "../api/api";
+import { loginAdmin, signupAdmin } from "../api/api";
 import { useAuth } from "../auth/AuthContext";
 
 export default function Login() {
@@ -9,7 +9,8 @@ export default function Login() {
   const location = useLocation();
   const redirectTo = location.state?.from || "/admin/create-job";
 
-  const [form, setForm] = useState({ username: "", password: "" });
+  const [mode, setMode] = useState("login");
+  const [form, setForm] = useState({ username: "", password: "", confirmPassword: "" });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -23,61 +24,105 @@ export default function Login() {
     setSubmitting(true);
 
     try {
-      const data = await loginAdmin(form);
+      if (mode === "signup" && form.password !== form.confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
+      const payload = { username: form.username, password: form.password };
+      const data = mode === "signup" ? await signupAdmin(payload) : await loginAdmin(payload);
       login(data.token);
       navigate(redirectTo, { replace: true });
     } catch (err) {
-      setError(err.message || "Login failed");
+      setError(err.message || `${mode === "signup" ? "Signup" : "Login"} failed`);
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-      <h1 className="text-2xl font-bold">Admin Login</h1>
-      <p className="mt-1 text-sm text-slate-600">Sign in to create new jobs.</p>
+    <section className="mx-auto max-w-md glass-card rounded-3xl p-8">
+      <h1 className="text-3xl font-bold tracking-tight text-slate-900">Admin Access</h1>
+      <p className="mt-2 text-sm text-slate-600">Sign in or create an admin account to manage jobs.</p>
 
-      {error && (
-        <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-          {error}
-        </div>
-      )}
+      <div className="mt-5 grid grid-cols-2 gap-2 rounded-xl border border-slate-200 bg-white p-1">
+        <button
+          type="button"
+          onClick={() => {
+            setMode("login");
+            setError("");
+          }}
+          className={[
+            "rounded-lg px-3 py-2 text-sm font-medium transition",
+            mode === "login" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100",
+          ].join(" ")}
+        >
+          Login
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setMode("signup");
+            setError("");
+          }}
+          className={[
+            "rounded-lg px-3 py-2 text-sm font-medium transition",
+            mode === "signup" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100",
+          ].join(" ")}
+        >
+          Signup
+        </button>
+      </div>
+
+      {error ? <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div> : null}
 
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-700">Username</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.08em] text-slate-600">Username</label>
           <input
             name="username"
             value={form.username}
             onChange={onChange}
             autoComplete="username"
-            className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
-            placeholder="admin"
+            className="field"
+            placeholder="admin-user"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-700">Password</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.08em] text-slate-600">Password</label>
           <input
             name="password"
             value={form.password}
             onChange={onChange}
             type="password"
             autoComplete="current-password"
-            className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            className="field"
             placeholder="••••••••"
           />
         </div>
 
+        {mode === "signup" ? (
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.08em] text-slate-600">Confirm Password</label>
+            <input
+              name="confirmPassword"
+              value={form.confirmPassword}
+              onChange={onChange}
+              type="password"
+              autoComplete="new-password"
+              className="field"
+              placeholder="••••••••"
+            />
+          </div>
+        ) : null}
+
         <button
           type="submit"
-          disabled={!form.username || !form.password || submitting}
-          className="w-full rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-50"
+          disabled={!form.username || !form.password || (mode === "signup" && !form.confirmPassword) || submitting}
+          className="btn btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {submitting ? "Signing in..." : "Login"}
+          {submitting ? (mode === "signup" ? "Creating account..." : "Signing in...") : mode === "signup" ? "Create Account" : "Login"}
         </button>
       </form>
-    </div>
+    </section>
   );
 }

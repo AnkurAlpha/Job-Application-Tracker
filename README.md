@@ -30,6 +30,9 @@ cp frontend/.env.example frontend/.env
 
 Update values as needed, especially:
 - `JWT_SECRET`
+- `JWT_EXPIRES_IN`
+- `JWT_ISSUER`
+- `JWT_AUDIENCE`
 - `ADMIN_USERNAME`
 - `ADMIN_PASSWORD`
 - `DATABASE_URL`
@@ -74,18 +77,26 @@ docker compose down
 ```
 
 ## Admin Login
-Admin authentication is environment-based.
+Admin authentication supports both:
+- Signup (`/auth/signup`) which stores admin users in DB.
+- Env fallback login (`ADMIN_USERNAME`/`ADMIN_PASSWORD`) for quick local setup.
+
 Set these in `backend/.env`:
 - `ADMIN_USERNAME`
 - `ADMIN_PASSWORD`
+- `JWT_SECRET` (required)
+- `JWT_EXPIRES_IN` (optional, default `12h`)
+- `JWT_ISSUER` (optional, default `job-tracker-api`)
+- `JWT_AUDIENCE` (optional, default `job-tracker-admin`)
 
-Then login from frontend at `/login` and create jobs at `/admin/create-job`.
+Then use `/login` to either sign up or log in, and create jobs at `/admin/create-job`.
 
 ## API Endpoints
 | Method | Path | Access | Description |
 |---|---|---|---|
 | GET | `/health` | Public | Health check |
-| POST | `/auth/login` | Public | Admin login, returns `{ token }` |
+| POST | `/auth/signup` | Public | Create admin user, returns `{ token, user }` |
+| POST | `/auth/login` | Public | Admin login, returns `{ token, user }` |
 | GET | `/jobs` | Public | List jobs |
 | GET | `/jobs/:id` | Public | Job details |
 | POST | `/jobs` | Admin (JWT) | Create job |
