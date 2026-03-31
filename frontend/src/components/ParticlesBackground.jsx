@@ -20,27 +20,27 @@ export default function ParticlesBackground() {
       detectRetina: true,
       particles: {
         number: {
-          value: isDark ? 44 : 50,
+          value: isDark ? 56 : 64,
           density: { enable: true, area: 900 },
         },
-        color: { value: isDark ? "#67e8f9" : "#0f766e" },
+        color: { value: isDark ? "#5eead4" : "#0d9488" },
         links: {
           enable: true,
-          distance: 145,
-          color: isDark ? "#334155" : "#94a3b8",
-          opacity: isDark ? 0.23 : 0.17,
+          distance: 138,
+          color: isDark ? "#475569" : "#94a3b8",
+          opacity: isDark ? 0.35 : 0.27,
           width: 1,
         },
         move: {
           enable: true,
-          speed: isDark ? 0.4 : 0.45,
+          speed: isDark ? 0.55 : 0.5,
           outModes: { default: "out" },
         },
         opacity: {
-          value: isDark ? 0.2 : 0.15,
+          value: isDark ? 0.36 : 0.28,
         },
         size: {
-          value: { min: 0.8, max: 2.8 },
+          value: { min: 1.1, max: 3.2 },
         },
       },
       interactivity: {
@@ -52,12 +52,12 @@ export default function ParticlesBackground() {
         },
         modes: {
           repulse: {
-            distance: 140,
-            duration: 0.45,
+            distance: 165,
+            duration: 0.6,
           },
           grab: {
-            distance: 150,
-            links: { opacity: isDark ? 0.32 : 0.24 },
+            distance: 162,
+            links: { opacity: isDark ? 0.45 : 0.36 },
           },
         },
       },
@@ -77,4 +77,3 @@ export default function ParticlesBackground() {
     </div>
   );
 }
-

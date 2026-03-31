@@ -75,11 +75,11 @@ h6,
 }
 
 .particles-layer canvas {
-  opacity: 0.58;
+  opacity: 0.78;
 }
 
 :root.theme-dark .particles-layer canvas {
-  opacity: 0.72;
+  opacity: 0.92;
 }
 
 .app-shell::before {
@@ -164,6 +164,20 @@ h6,
   background: #fff;
 }
 
+.hero-actions .btn-primary {
+  box-shadow: 0 16px 28px -18px rgba(15, 118, 110, 0.85);
+}
+
+.hero-actions .btn-secondary {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #94a3b8;
+}
+
+.hero-actions .btn-secondary:hover {
+  background: #ffffff;
+  border-color: #64748b;
+}
+
 :root.theme-dark .btn-secondary {
   border-color: #475569;
   background: rgba(15, 23, 42, 0.85);
@@ -173,6 +187,21 @@ h6,
 :root.theme-dark .btn-secondary:hover {
   border-color: #64748b;
   background: rgba(30, 41, 59, 0.9);
+}
+
+:root.theme-dark .hero-actions .btn-primary {
+  box-shadow: 0 16px 30px -18px rgba(20, 184, 166, 0.88);
+}
+
+:root.theme-dark .hero-actions .btn-secondary {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: rgba(100, 116, 139, 0.9);
+  color: #e2e8f0;
+}
+
+:root.theme-dark .hero-actions .btn-secondary:hover {
+  background: rgba(30, 41, 59, 0.98);
+  border-color: #94a3b8;
 }
 
 .badge {

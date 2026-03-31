@@ -13,7 +13,7 @@ export default function Home() {
           Manage open roles, track candidate submissions, and move faster with a single dashboard for your hiring pipeline.
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="hero-actions mt-8 flex flex-wrap gap-3">
           <Link to="/dashboard" className="btn btn-primary">
             <LayoutDashboard size={16} />
             Open Dashboard
