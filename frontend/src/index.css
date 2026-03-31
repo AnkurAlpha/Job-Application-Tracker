@@ -4,6 +4,7 @@
 :root {
   --bg-0: #f6f7fb;
   --bg-1: #e9f2ff;
+  --bg-2: #f1f5f9;
   --ink-900: #101828;
   --ink-700: #344054;
   --ink-500: #667085;
@@ -17,6 +18,7 @@
 :root.theme-dark {
   --bg-0: #0b1220;
   --bg-1: #111827;
+  --bg-2: #1f2937;
   --ink-900: #e2e8f0;
   --ink-700: #cbd5e1;
   --ink-500: #94a3b8;
@@ -43,7 +45,7 @@ body {
   background:
     radial-gradient(circle at 18% 18%, rgba(14, 165, 163, 0.24), transparent 42%),
     radial-gradient(circle at 82% 0%, rgba(249, 115, 22, 0.16), transparent 34%),
-    linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 58%, #f8fafc 100%);
+    linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 58%, var(--bg-2) 100%);
 }
 
 h1,
@@ -62,12 +64,29 @@ h6,
 
 .app-shell {
   position: relative;
+  isolation: isolate;
+}
+
+.particles-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.particles-layer canvas {
+  opacity: 0.58;
+}
+
+:root.theme-dark .particles-layer canvas {
+  opacity: 0.72;
 }
 
 .app-shell::before {
   content: "";
   position: fixed;
   inset: 0;
+  z-index: 1;
   pointer-events: none;
   background-image: linear-gradient(rgba(16, 24, 40, 0.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(16, 24, 40, 0.015) 1px, transparent 1px);
