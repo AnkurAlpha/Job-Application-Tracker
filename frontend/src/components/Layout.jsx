@@ -14,7 +14,7 @@ const Layout = ({ children }) => {
           <span className="text-xs uppercase tracking-[0.16em] text-slate-500">Built by AnkurAlpha</span>
         </div>
       </footer>
-      <Toaster richColors position="top-right" />
+      <Toaster richColors position="top-right" offset={20} closeButton theme="light" />
     </div>
   );
 };
