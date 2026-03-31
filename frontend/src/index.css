@@ -222,6 +222,11 @@ h6,
   color: #5eead4 !important;
 }
 
+:root.theme-dark footer {
+  background-color: rgba(2, 6, 23, 0.72) !important;
+  border-top-color: rgba(71, 85, 105, 0.95) !important;
+}
+
 :root.theme-dark .border-slate-200,
 :root.theme-dark .border-slate-200\/70,
 :root.theme-dark .border-slate-200\/80 {
@@ -240,6 +245,20 @@ h6,
 :root.theme-dark .bg-slate-50,
 :root.theme-dark .bg-slate-100 {
   background-color: rgba(30, 41, 59, 0.75) !important;
+}
+
+:root.theme-dark .hover\:bg-white\/80:hover,
+:root.theme-dark .hover\:bg-white\/90:hover {
+  background-color: rgba(30, 41, 59, 0.85) !important;
+}
+
+:root.theme-dark .hover\:bg-slate-50:hover,
+:root.theme-dark .hover\:bg-slate-100:hover {
+  background-color: rgba(51, 65, 85, 0.78) !important;
+}
+
+:root.theme-dark .hover\:text-slate-900:hover {
+  color: #f1f5f9 !important;
 }
 
 .fade-up {
