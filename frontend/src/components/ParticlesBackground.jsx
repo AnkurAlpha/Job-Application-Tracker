@@ -20,7 +20,7 @@ export default function ParticlesBackground() {
       detectRetina: true,
       particles: {
         number: {
-          value: isDark ? 56 : 64,
+          value: isDark ? 72 : 84,
           density: { enable: true, area: 900 },
         },
         color: { value: isDark ? "#5eead4" : "#0d9488" },

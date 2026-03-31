@@ -168,6 +168,26 @@ h6,
   box-shadow: 0 16px 28px -18px rgba(15, 118, 110, 0.85);
 }
 
+.hero-actions .hero-cta {
+  font-weight: 700;
+  border-width: 1px;
+  position: relative;
+  z-index: 60;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+}
+
+.hero-actions .hero-cta-primary {
+  background: linear-gradient(135deg, #0f766e, #14b8a6) !important;
+  border-color: rgba(15, 118, 110, 0.9) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px rgba(15, 118, 110, 0.45), 0 0 0 1px rgba(15, 118, 110, 0.25) inset;
+}
+
+.hero-actions .hero-cta-primary:hover {
+  filter: brightness(1.04);
+}
+
 .hero-actions .btn-secondary {
   background: rgba(255, 255, 255, 0.95);
   border-color: #94a3b8;
@@ -176,6 +196,13 @@ h6,
 .hero-actions .btn-secondary:hover {
   background: #ffffff;
   border-color: #64748b;
+}
+
+.hero-actions .hero-cta-secondary {
+  background: #ffffff !important;
+  border-color: #64748b !important;
+  color: #0f172a !important;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(100, 116, 139, 0.18) inset;
 }
 
 :root.theme-dark .btn-secondary {
@@ -193,6 +220,13 @@ h6,
   box-shadow: 0 16px 30px -18px rgba(20, 184, 166, 0.88);
 }
 
+:root.theme-dark .hero-actions .hero-cta-primary {
+  background: linear-gradient(135deg, #14b8a6, #2dd4bf) !important;
+  border-color: rgba(45, 212, 191, 0.75) !important;
+  color: #042f2e !important;
+  box-shadow: 0 10px 24px rgba(20, 184, 166, 0.35), 0 0 0 1px rgba(45, 212, 191, 0.3) inset;
+}
+
 :root.theme-dark .hero-actions .btn-secondary {
   background: rgba(15, 23, 42, 0.95);
   border-color: rgba(100, 116, 139, 0.9);
@@ -202,6 +236,13 @@ h6,
 :root.theme-dark .hero-actions .btn-secondary:hover {
   background: rgba(30, 41, 59, 0.98);
   border-color: #94a3b8;
+}
+
+:root.theme-dark .hero-actions .hero-cta-secondary {
+  background: #1e293b !important;
+  border-color: #94a3b8 !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 10px 22px rgba(2, 6, 23, 0.55), 0 0 0 1px rgba(148, 163, 184, 0.25) inset;
 }
 
 .badge {
