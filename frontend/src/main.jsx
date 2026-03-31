@@ -6,6 +6,9 @@ import App from './App.jsx'
 import './index.css'
 import "react-loading-skeleton/dist/skeleton.css";
 import { AuthProvider } from './auth/AuthContext.jsx'
+import { applyTheme, getInitialTheme } from "./theme/useTheme.js";
+
+applyTheme(getInitialTheme());
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>

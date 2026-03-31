@@ -1,9 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import { BriefcaseBusiness, FolderKanban, House, LogIn, LogOut, PlusCircle } from "lucide-react";
+import { BriefcaseBusiness, FolderKanban, House, LogIn, LogOut, Moon, PlusCircle, Sun } from "lucide-react";
+import { useTheme } from "../theme/useTheme.js";
 
 const Navbar = () => {
   const { isAdmin, isAuthenticated, logout } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
 
   const linkClass = ({ isActive }) =>
     [
@@ -51,11 +53,21 @@ const Navbar = () => {
               Login
             </NavLink>
           ) : null}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="ml-auto inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
+            aria-label="Toggle color theme"
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            {isDark ? "Light" : "Dark"}
+          </button>
           {isAuthenticated ? (
             <button
               type="button"
               onClick={logout}
-              className="ml-auto inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
             >
               <LogOut size={16} />
               Logout
