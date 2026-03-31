@@ -11,6 +11,10 @@ export default function Home() {
 
   useGSAP(
     () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+      }
+
       gsap.from(".hero-anim", {
         y: 18,
         opacity: 0,
