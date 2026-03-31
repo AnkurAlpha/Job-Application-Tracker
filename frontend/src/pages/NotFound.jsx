@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BriefcaseBusiness, House } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -8,9 +9,11 @@ export default function NotFound() {
       <p className="mt-2 text-sm text-slate-600">The page you requested does not exist or may have moved.</p>
       <div className="mt-7 flex flex-wrap justify-center gap-3">
         <Link to="/" className="btn btn-primary">
+          <House size={16} />
           Go Home
         </Link>
         <Link to="/jobs" className="btn btn-secondary">
+          <BriefcaseBusiness size={16} />
           Browse Jobs
         </Link>
       </div>

@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import { applyForJob } from "../api/api";
 import { toast } from "sonner";
-import { Send } from "lucide-react";
+import { ArrowLeft, Send } from "lucide-react";
 
 const Apply = () => {
   const { id } = useParams();
@@ -40,7 +40,8 @@ const Apply = () => {
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       <Link to={`/jobs/${id}`} className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-slate-900">
-        ← Back to Job
+        <ArrowLeft size={16} />
+        Back to Job
       </Link>
 
       <section className="glass-card rounded-3xl p-7 sm:p-8">

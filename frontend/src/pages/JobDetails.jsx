@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getJobById } from "../api/api";
 import { toast } from "sonner";
 import Skeleton from "react-loading-skeleton";
-import { Send } from "lucide-react";
+import { ArrowLeft, BriefcaseBusiness, Send } from "lucide-react";
 
 export default function JobDetails() {
   const { id } = useParams();
@@ -58,7 +58,8 @@ export default function JobDetails() {
   return (
     <div className="space-y-4">
       <Link to="/jobs" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-slate-900">
-        ← Back to Jobs
+        <ArrowLeft size={16} />
+        Back to Jobs
       </Link>
 
       <section className="glass-card rounded-3xl p-7 sm:p-8">
@@ -72,6 +73,7 @@ export default function JobDetails() {
             Apply Now
           </Link>
           <Link to="/jobs" className="btn btn-secondary">
+            <BriefcaseBusiness size={16} />
             Browse Jobs
           </Link>
         </div>

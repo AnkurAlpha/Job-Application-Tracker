@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getJobs } from "../api/api.js";
 import { toast } from "sonner";
 import Skeleton from "react-loading-skeleton";
+import { ArrowRight, BriefcaseBusiness, House } from "lucide-react";
 
 const Dashboard = () => {
   const [jobs, setJobs] = useState([]);
@@ -91,6 +92,7 @@ const Dashboard = () => {
         <p className="text-sm font-semibold text-red-800">Dashboard Error</p>
         <p className="mt-1 text-sm text-red-700">{error}</p>
         <Link to="/jobs" className="btn btn-primary mt-4 inline-block">
+          <BriefcaseBusiness size={16} />
           Go to Jobs
         </Link>
       </div>
@@ -104,9 +106,11 @@ const Dashboard = () => {
         <p className="mt-2 text-sm text-slate-600">Quick snapshot of live roles and the latest listings.</p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link to="/jobs" className="btn btn-primary">
+            <BriefcaseBusiness size={16} />
             Browse Jobs
           </Link>
           <Link to="/" className="btn btn-secondary">
+            <House size={16} />
             Home
           </Link>
         </div>
@@ -132,8 +136,9 @@ const Dashboard = () => {
             <h2 className="text-xl font-bold text-slate-900">Recent Jobs</h2>
             <p className="mt-1 text-sm text-slate-600">Most recently available opportunities.</p>
           </div>
-          <Link to="/jobs" className="text-sm font-semibold text-teal-800 hover:text-teal-900">
+          <Link to="/jobs" className="inline-flex items-center gap-1 text-sm font-semibold text-teal-800 hover:text-teal-900">
             View all
+            <ArrowRight size={14} />
           </Link>
         </div>
 

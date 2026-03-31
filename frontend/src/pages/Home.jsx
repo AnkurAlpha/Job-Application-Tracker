@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { BriefcaseBusiness, LayoutDashboard } from "lucide-react";
 
 gsap.registerPlugin(useGSAP);
 
@@ -34,9 +35,11 @@ export default function Home() {
 
         <div className="hero-anim mt-8 flex flex-wrap gap-3">
           <Link to="/dashboard" className="btn btn-primary">
+            <LayoutDashboard size={16} />
             Open Dashboard
           </Link>
           <Link to="/jobs" className="btn btn-secondary">
+            <BriefcaseBusiness size={16} />
             Explore Jobs
           </Link>
         </div>
