@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJobs } from "../api/api.js";
 import { toast } from "sonner";
+import Skeleton from "react-loading-skeleton";
 
 const Dashboard = () => {
   const [jobs, setJobs] = useState([]);
@@ -30,9 +31,56 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="soft-panel rounded-2xl p-6">
-        <p className="text-sm font-semibold text-slate-900">Loading dashboard...</p>
-        <p className="mt-1 text-sm text-slate-600">Fetching data from backend.</p>
+      <div className="space-y-5">
+        <section className="glass-card rounded-3xl p-7 sm:p-8">
+          <Skeleton width={260} height={40} />
+          <div className="mt-2">
+            <Skeleton width={360} height={16} />
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Skeleton width={122} height={40} borderRadius={14} />
+            <Skeleton width={86} height={40} borderRadius={14} />
+          </div>
+        </section>
+
+        <section className="grid gap-4 md:grid-cols-2">
+          {Array.from({ length: 2 }).map((_, index) => (
+            <article key={`stats-skeleton-${index}`} className="soft-panel rounded-2xl p-6">
+              <Skeleton width={88} height={12} />
+              <div className="mt-3">
+                <Skeleton width={74} height={42} />
+              </div>
+              <div className="mt-3">
+                <Skeleton width="90%" height={14} />
+              </div>
+            </article>
+          ))}
+        </section>
+
+        <section className="soft-panel rounded-2xl p-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <Skeleton width={148} height={28} />
+              <div className="mt-2">
+                <Skeleton width={270} height={14} />
+              </div>
+            </div>
+            <Skeleton width={56} height={14} />
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <article key={`recent-skeleton-${index}`} className="rounded-2xl border border-slate-200 bg-white/90 p-4">
+                <Skeleton width="78%" height={16} />
+                <div className="mt-2 space-y-2">
+                  <Skeleton count={2} height={12} />
+                </div>
+                <div className="mt-3">
+                  <Skeleton width={42} height={20} borderRadius={9999} />
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
       </div>
     );
   }
