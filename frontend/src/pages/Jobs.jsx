@@ -1,16 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJobs } from "../api/api.js";
 import { toast } from "sonner";
 import Skeleton from "react-loading-skeleton";
 import { Eye } from "lucide-react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(useGSAP);
 
 const Jobs = () => {
-  const scope = useRef(null);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -25,30 +20,6 @@ const Jobs = () => {
       })
       .finally(() => setLoading(false));
   }, []);
-
-  useGSAP(
-    () => {
-      if (loading || error) return;
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-      gsap.from(".jobs-anim-header", {
-        y: 12,
-        opacity: 0,
-        duration: 0.4,
-        ease: "power2.out",
-      });
-
-      gsap.from(".jobs-anim-card", {
-        y: 12,
-        opacity: 0,
-        duration: 0.42,
-        ease: "power2.out",
-        stagger: 0.06,
-        delay: 0.08,
-      });
-    },
-    { scope, dependencies: [loading, error, jobs.length] }
-  );
 
   if (loading) {
     return (
@@ -86,8 +57,8 @@ const Jobs = () => {
   }
 
   return (
-    <div ref={scope} className="space-y-5">
-      <div className="jobs-anim-header glass-card flex flex-wrap items-end justify-between gap-3 rounded-2xl p-6">
+    <div className="space-y-5">
+      <div className="glass-card flex flex-wrap items-end justify-between gap-3 rounded-2xl p-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">Open Jobs</h1>
           <p className="mt-1 text-sm text-slate-600">Browse available roles and open the detail view to apply.</p>
@@ -103,7 +74,7 @@ const Jobs = () => {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {jobs.map((job) => (
-            <article key={job.id} className="jobs-anim-card soft-panel rounded-2xl p-5 transition hover:-translate-y-0.5 hover:shadow-lg">
+            <article key={job.id} className="soft-panel rounded-2xl p-5 transition hover:-translate-y-0.5 hover:shadow-lg">
                 <p className="text-base font-bold text-slate-900">{job.title}</p>
                 <p className="mt-2 text-sm text-slate-600">{job.description || "No description provided."}</p>
                 <div className="mt-4 flex justify-end">
