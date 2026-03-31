@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { createJob } from "../api/api";
 import { useAuth } from "../auth/AuthContext";
+import { PlusCircle } from "lucide-react";
+import { toast } from "sonner";
 
 export default function AdminCreateJob() {
   const { token } = useAuth();
@@ -20,7 +22,12 @@ export default function AdminCreateJob() {
     setSubmitting(true);
 
     try {
-      const created = await createJob({ ...form, token });
+      const request = createJob({ ...form, token });
+      const created = await toast.promise(request, {
+        loading: "Creating job...",
+        success: "Job created",
+        error: (err) => err?.message || "Failed to create job",
+      });
       setSuccessMessage(`Job created: ${created.title}`);
       setForm({ title: "", description: "" });
     } catch (err) {
@@ -62,6 +69,7 @@ export default function AdminCreateJob() {
           disabled={!form.title.trim() || !form.description.trim() || submitting}
           className="btn btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
         >
+          <PlusCircle size={16} />
           {submitting ? "Creating..." : "Create Job"}
         </button>
       </form>

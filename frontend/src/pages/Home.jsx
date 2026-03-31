@@ -1,18 +1,38 @@
 import { Link } from "react-router-dom";
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP);
 
 export default function Home() {
+  const scope = useRef(null);
+
+  useGSAP(
+    () => {
+      gsap.from(".hero-anim", {
+        y: 18,
+        opacity: 0,
+        duration: 0.55,
+        ease: "power2.out",
+        stagger: 0.1,
+      });
+    },
+    { scope }
+  );
+
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+    <div ref={scope} className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
       <section className="glass-card rounded-3xl p-8 sm:p-10">
-        <span className="badge">Hiring Workflow</span>
-        <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+        <span className="hero-anim badge">Hiring Workflow</span>
+        <h1 className="hero-anim mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
           Keep every application visible, tidy, and actionable.
         </h1>
-        <p className="mt-4 max-w-2xl text-slate-700">
+        <p className="hero-anim mt-4 max-w-2xl text-slate-700">
           Manage open roles, track candidate submissions, and move faster with a single dashboard for your hiring pipeline.
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="hero-anim mt-8 flex flex-wrap gap-3">
           <Link to="/dashboard" className="btn btn-primary">
             Open Dashboard
           </Link>

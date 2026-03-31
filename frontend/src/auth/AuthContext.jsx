@@ -32,12 +32,6 @@ export function AuthProvider({ children }) {
   const user = useMemo(() => (token ? decodePayload(token) : null), [token]);
 
   useEffect(() => {
-    if (token && !isTokenUsable(token)) {
-      setToken(null);
-    }
-  }, [token]);
-
-  useEffect(() => {
     if (!token) {
       localStorage.removeItem(STORAGE_KEY);
       return;
@@ -51,7 +45,7 @@ export function AuthProvider({ children }) {
       user,
       isAuthenticated: Boolean(token),
       isAdmin: user?.role === "admin",
-      login: (newToken) => setToken(newToken),
+      login: (newToken) => setToken(newToken && isTokenUsable(newToken) ? newToken : null),
       logout: () => setToken(null),
     }),
     [token, user]

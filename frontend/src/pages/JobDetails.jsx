@@ -1,6 +1,9 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getJobById } from "../api/api";
+import { toast } from "sonner";
+import Skeleton from "react-loading-skeleton";
+import { Send } from "lucide-react";
 
 export default function JobDetails() {
   const { id } = useParams();
@@ -10,7 +13,11 @@ export default function JobDetails() {
   useEffect(() => {
     getJobById(id)
       .then(setJob)
-      .catch((e) => setError(e.message || "Failed to load job"));
+      .catch((e) => {
+        const message = e.message || "Failed to load job";
+        setError(message);
+        toast.error(message);
+      });
   }, [id]);
 
   if (error) {
@@ -27,8 +34,23 @@ export default function JobDetails() {
 
   if (!job) {
     return (
-      <div className="soft-panel rounded-2xl p-6">
-        <p className="text-sm font-semibold text-slate-900">Loading job details...</p>
+      <div className="space-y-4">
+        <div>
+          <Skeleton width={120} height={16} />
+        </div>
+        <section className="glass-card rounded-3xl p-7 sm:p-8">
+          <Skeleton width={88} height={24} borderRadius={9999} />
+          <div className="mt-4">
+            <Skeleton width="65%" height={40} />
+          </div>
+          <div className="mt-3 space-y-2">
+            <Skeleton count={4} height={16} />
+          </div>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Skeleton width={132} height={40} borderRadius={9999} />
+            <Skeleton width={128} height={40} borderRadius={9999} />
+          </div>
+        </section>
       </div>
     );
   }
@@ -46,6 +68,7 @@ export default function JobDetails() {
 
         <div className="mt-7 flex flex-wrap gap-3">
           <Link to={`/apply/${job.id}`} className="btn btn-primary">
+            <Send size={16} />
             Apply Now
           </Link>
           <Link to="/jobs" className="btn btn-secondary">

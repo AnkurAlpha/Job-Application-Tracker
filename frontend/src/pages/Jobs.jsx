@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJobs } from "../api/api.js";
+import { toast } from "sonner";
+import Skeleton from "react-loading-skeleton";
+import { Eye } from "lucide-react";
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -10,15 +13,36 @@ const Jobs = () => {
   useEffect(() => {
     getJobs()
       .then(setJobs)
-      .catch((err) => setError(err.message))
+      .catch((err) => {
+        const message = err.message || "Failed to fetch jobs";
+        setError(message);
+        toast.error(message);
+      })
       .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
     return (
-      <div className="soft-panel rounded-2xl p-6">
-        <p className="text-sm font-semibold text-slate-900">Loading jobs...</p>
-        <p className="mt-1 text-sm text-slate-600">Fetching latest postings from backend.</p>
+      <div className="space-y-5">
+        <div className="glass-card rounded-2xl p-6">
+          <Skeleton width={180} height={28} />
+          <div className="mt-2">
+            <Skeleton width={320} height={16} />
+          </div>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <article key={`jobs-skeleton-${index}`} className="soft-panel rounded-2xl p-5">
+              <Skeleton width="70%" height={22} />
+              <div className="mt-3 space-y-2">
+                <Skeleton count={3} height={14} />
+              </div>
+              <div className="mt-5 flex justify-end">
+                <Skeleton width={92} height={30} borderRadius={9999} />
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     );
   }
@@ -51,14 +75,15 @@ const Jobs = () => {
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {jobs.map((job) => (
             <article key={job.id} className="soft-panel rounded-2xl p-5 transition hover:-translate-y-0.5 hover:shadow-lg">
-              <p className="text-base font-bold text-slate-900">{job.title}</p>
-              <p className="mt-2 text-sm text-slate-600">{job.description || "No description provided."}</p>
-              <div className="mt-4 flex justify-end">
-                <Link to={`/jobs/${job.id}`} className="btn btn-secondary !rounded-full !px-4 !py-1.5 !text-xs">
-                  View Role
-                </Link>
-              </div>
-            </article>
+                <p className="text-base font-bold text-slate-900">{job.title}</p>
+                <p className="mt-2 text-sm text-slate-600">{job.description || "No description provided."}</p>
+                <div className="mt-4 flex justify-end">
+                  <Link to={`/jobs/${job.id}`} className="btn btn-secondary !rounded-full !px-4 !py-1.5 !text-xs">
+                    <Eye size={14} />
+                    View Role
+                  </Link>
+                </div>
+              </article>
           ))}
         </div>
       )}

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { loginAdmin, signupAdmin } from "../api/api";
 import { useAuth } from "../auth/AuthContext";
+import { LogIn, UserPlus } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Login() {
   const { login } = useAuth();
@@ -28,7 +30,12 @@ export default function Login() {
         throw new Error("Passwords do not match");
       }
       const payload = { username: form.username, password: form.password };
-      const data = mode === "signup" ? await signupAdmin(payload) : await loginAdmin(payload);
+      const request = mode === "signup" ? signupAdmin(payload) : loginAdmin(payload);
+      const data = await toast.promise(request, {
+        loading: mode === "signup" ? "Creating account..." : "Signing in...",
+        success: mode === "signup" ? "Account created" : "Logged in",
+        error: (err) => err?.message || `${mode === "signup" ? "Signup" : "Login"} failed`,
+      });
       login(data.token);
       navigate(redirectTo, { replace: true });
     } catch (err) {
@@ -120,6 +127,7 @@ export default function Login() {
           disabled={!form.username || !form.password || (mode === "signup" && !form.confirmPassword) || submitting}
           className="btn btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
         >
+          {mode === "signup" ? <UserPlus size={16} /> : <LogIn size={16} />}
           {submitting ? (mode === "signup" ? "Creating account..." : "Signing in...") : mode === "signup" ? "Create Account" : "Login"}
         </button>
       </form>

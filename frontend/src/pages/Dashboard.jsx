@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJobs } from "../api/api.js";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const [jobs, setJobs] = useState([]);
@@ -10,7 +11,11 @@ const Dashboard = () => {
   useEffect(() => {
     getJobs()
       .then(setJobs)
-      .catch((err) => setError(err.message || "Failed to load data"))
+      .catch((err) => {
+        const message = err.message || "Failed to load data";
+        setError(message);
+        toast.error(message);
+      })
       .finally(() => setLoading(false));
   }, []);
 

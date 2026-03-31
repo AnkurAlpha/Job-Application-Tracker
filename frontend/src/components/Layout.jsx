@@ -1,4 +1,5 @@
 import Navbar from "./Navbar";
+import { Toaster } from "sonner";
 
 const Layout = ({ children }) => {
   return (
@@ -13,6 +14,7 @@ const Layout = ({ children }) => {
           <span className="text-xs uppercase tracking-[0.16em] text-slate-500">Built by AnkurAlpha</span>
         </div>
       </footer>
+      <Toaster richColors position="top-right" />
     </div>
   );
 };

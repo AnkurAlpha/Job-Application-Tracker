@@ -1,6 +1,8 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import { applyForJob } from "../api/api";
+import { toast } from "sonner";
+import { Send } from "lucide-react";
 
 const Apply = () => {
   const { id } = useParams();
@@ -20,10 +22,16 @@ const Apply = () => {
     setError("");
     setSubmitting(true);
     try {
-      await applyForJob({ ...form, jobId: id });
+      const request = applyForJob({ ...form, jobId: id });
+      await toast.promise(request, {
+        loading: "Submitting application...",
+        success: "Applied successfully",
+        error: (err) => err?.message || "Failed to submit application",
+      });
       setDone(true);
     } catch (e) {
-      setError(e.message || "Failed to submit application");
+      const message = e.message || "Failed to submit application";
+      setError(message);
     } finally {
       setSubmitting(false);
     }
@@ -77,6 +85,7 @@ const Apply = () => {
           </div>
 
           <button type="submit" disabled={!canSubmit || submitting} className="btn btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60">
+            <Send size={16} />
             {submitting ? "Submitting..." : "Submit Application"}
           </button>
         </form>
