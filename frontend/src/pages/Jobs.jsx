@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getJobs } from "../api/api.js";
+import { createJob, deleteJob, getJobs } from "../api/api.js";
 import { toast } from "sonner";
 import Skeleton from "react-loading-skeleton";
-import { Eye } from "lucide-react";
+import { Eye, PlusCircle, Trash2 } from "lucide-react";
+import { useAuth } from "../auth/AuthContext.jsx";
 
 const Jobs = () => {
+  const { isAdmin, token } = useAuth();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [quickForm, setQuickForm] = useState({ title: "", description: "" });
+  const [saving, setSaving] = useState(false);
+  const [deletingJobId, setDeletingJobId] = useState(null);
 
-  useEffect(() => {
+  const fetchJobs = () => {
     getJobs()
       .then(setJobs)
       .catch((err) => {
@@ -19,7 +24,45 @@ const Jobs = () => {
         toast.error(message);
       })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchJobs();
   }, []);
+
+  const addJobQuickly = async (e) => {
+    e.preventDefault();
+    if (!isAdmin || !token) return;
+    setSaving(true);
+    try {
+      const request = createJob({ ...quickForm, token });
+      const created = await toast.promise(request, {
+        loading: "Adding job...",
+        success: "Job added",
+        error: (err) => err?.message || "Failed to add job",
+      });
+      setJobs((prev) => [created, ...prev]);
+      setQuickForm({ title: "", description: "" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const removeJobQuickly = async (id) => {
+    if (!isAdmin || !token) return;
+    setDeletingJobId(id);
+    try {
+      const request = deleteJob({ id, token });
+      await toast.promise(request, {
+        loading: "Removing job...",
+        success: "Job removed",
+        error: (err) => err?.message || "Failed to remove job",
+      });
+      setJobs((prev) => prev.filter((job) => job.id !== id));
+    } finally {
+      setDeletingJobId(null);
+    }
+  };
 
   if (loading) {
     return (
@@ -66,6 +109,39 @@ const Jobs = () => {
         <div className="badge">{jobs.length} total</div>
       </div>
 
+      {isAdmin ? (
+        <section className="soft-panel rounded-2xl p-5">
+          <div className="flex flex-wrap items-end justify-between gap-2">
+            <div>
+              <p className="text-sm font-semibold text-slate-900">Admin Quick Actions</p>
+              <p className="mt-1 text-xs text-slate-600">Add or remove jobs instantly without leaving this page.</p>
+            </div>
+          </div>
+          <form onSubmit={addJobQuickly} className="mt-4 grid gap-3 sm:grid-cols-2">
+            <input
+              className="field"
+              placeholder="Job title"
+              value={quickForm.title}
+              onChange={(e) => setQuickForm((prev) => ({ ...prev, title: e.target.value }))}
+            />
+            <input
+              className="field"
+              placeholder="Short description"
+              value={quickForm.description}
+              onChange={(e) => setQuickForm((prev) => ({ ...prev, description: e.target.value }))}
+            />
+            <button
+              type="submit"
+              disabled={!quickForm.title.trim() || !quickForm.description.trim() || saving}
+              className="btn btn-primary sm:col-span-2 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <PlusCircle size={16} />
+              {saving ? "Adding..." : "Quick Add Job"}
+            </button>
+          </form>
+        </section>
+      ) : null}
+
       {jobs.length === 0 ? (
         <div className="soft-panel rounded-2xl p-6">
           <p className="text-sm font-semibold text-slate-900">No jobs yet</p>
@@ -77,7 +153,18 @@ const Jobs = () => {
             <article key={job.id} className="soft-panel rounded-2xl p-5 transition hover:-translate-y-0.5 hover:shadow-lg">
                 <p className="text-base font-bold text-slate-900">{job.title}</p>
                 <p className="mt-2 text-sm text-slate-600">{job.description || "No description provided."}</p>
-                <div className="mt-4 flex justify-end">
+                <div className="mt-4 flex justify-end gap-2">
+                  {isAdmin ? (
+                    <button
+                      type="button"
+                      onClick={() => removeJobQuickly(job.id)}
+                      disabled={deletingJobId === job.id}
+                      className="btn !rounded-full !px-3 !py-1.5 !text-xs border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-60"
+                    >
+                      <Trash2 size={14} />
+                      {deletingJobId === job.id ? "Removing..." : "Remove"}
+                    </button>
+                  ) : null}
                   <Link to={`/jobs/${job.id}`} className="btn btn-secondary !rounded-full !px-4 !py-1.5 !text-xs">
                     <Eye size={14} />
                     View Role

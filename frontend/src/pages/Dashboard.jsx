@@ -150,7 +150,7 @@ const Dashboard = () => {
               <Link key={job.id} to={`/jobs/${job.id}`} className="rounded-2xl border border-slate-200 bg-white/90 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
                 <p className="text-sm font-bold text-slate-900">{job.title}</p>
                 <p className="mt-2 text-sm text-slate-600">{job.description || "No description provided."}</p>
-                <div className="mt-3 inline-flex rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700">
+                <div className="recent-open-badge mt-3 inline-flex rounded-full px-3 py-1 text-xs font-semibold">
                   Open
                 </div>
               </Link>

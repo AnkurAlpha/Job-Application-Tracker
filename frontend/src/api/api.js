@@ -57,6 +57,16 @@ export const signupAdmin = async (credentials) => {
   return res.json();
 };
 
+export const getAuthMe = async (token) => {
+  const res = await fetch(`${API_URL}/auth/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to verify login"));
+  return res.json();
+};
+
 export const createJob = async ({ title, description, token }) => {
   const res = await fetch(`${API_URL}/jobs`, {
     method: "POST",
@@ -67,5 +77,16 @@ export const createJob = async ({ title, description, token }) => {
     body: JSON.stringify({ title, description }),
   });
   if (!res.ok) throw new Error(await parseError(res, "Failed to create job"));
+  return res.json();
+};
+
+export const deleteJob = async ({ id, token }) => {
+  const res = await fetch(`${API_URL}/jobs/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to delete job"));
   return res.json();
 };

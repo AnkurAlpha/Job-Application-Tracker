@@ -115,4 +115,18 @@ async function login(req, res) {
   }
 }
 
-module.exports = { login, signup };
+function me(req, res) {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  return res.json({
+    user: {
+      id: req.user.sub || null,
+      username: req.user.username || "",
+      role: req.user.role || "",
+    },
+  });
+}
+
+module.exports = { login, signup, me };

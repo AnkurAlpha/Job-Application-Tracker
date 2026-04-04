@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import { BriefcaseBusiness, FolderKanban, House, LogIn, LogOut, Moon, PlusCircle, Sun } from "lucide-react";
+import { BriefcaseBusiness, FolderKanban, House, LogIn, LogOut, Moon, PlusCircle, ShieldCheck, ShieldOff, Sun, Wrench } from "lucide-react";
 import { useTheme } from "../theme/useTheme.js";
 
 const Navbar = () => {
-  const { isAdmin, isAuthenticated, logout } = useAuth();
+  const { isAdmin, isAuthenticated, logout, user } = useAuth();
   const { isDark, toggleTheme } = useTheme();
 
   const linkClass = ({ isActive }) =>
@@ -25,7 +25,13 @@ const Navbar = () => {
             </p>
             <p className="text-xs uppercase tracking-[0.14em] text-slate-500">Recruitment workspace</p>
           </div>
-          <span className="badge">Live Board</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="badge">Live Board</span>
+            <span className="badge">
+              {isAdmin ? <ShieldCheck size={14} /> : <ShieldOff size={14} />}
+              {isAdmin ? `Admin Logged In${user?.username ? ` (${user.username})` : ""}` : "Admin Logged Out"}
+            </span>
+          </div>
         </div>
 
         <nav className="glass-card flex flex-wrap items-center gap-1 rounded-2xl p-1.5">
@@ -45,6 +51,12 @@ const Navbar = () => {
             <NavLink to="/admin/create-job" className={linkClass}>
               <PlusCircle size={16} />
               Create Job
+            </NavLink>
+          ) : null}
+          {isAdmin ? (
+            <NavLink to="/jobs" className={linkClass}>
+              <Wrench size={16} />
+              Manage Jobs
             </NavLink>
           ) : null}
           {!isAuthenticated ? (
