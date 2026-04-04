@@ -90,3 +90,37 @@ export const deleteJob = async ({ id, token }) => {
   if (!res.ok) throw new Error(await parseError(res, "Failed to delete job"));
   return res.json();
 };
+
+export const getApplications = async (token) => {
+  const res = await fetch(`${API_URL}/applications`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to fetch applications"));
+  return res.json();
+};
+
+export const updateApplicationStatus = async ({ id, status, token }) => {
+  const res = await fetch(`${API_URL}/applications/${id}/status`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status }),
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to update application status"));
+  return res.json();
+};
+
+export const deleteApplication = async ({ id, token }) => {
+  const res = await fetch(`${API_URL}/applications/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to remove applicant"));
+  return res.json();
+};

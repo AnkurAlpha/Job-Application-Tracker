@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import { BriefcaseBusiness, FolderKanban, House, LogIn, LogOut, Moon, PlusCircle, ShieldCheck, ShieldOff, Sun, Wrench } from "lucide-react";
+import { BriefcaseBusiness, FolderKanban, House, LogIn, LogOut, Moon, PlusCircle, ShieldCheck, ShieldOff, Sun, UserRoundSearch, Wrench } from "lucide-react";
 import { useTheme } from "../theme/useTheme.js";
 
 const Navbar = () => {
@@ -51,6 +51,12 @@ const Navbar = () => {
             <NavLink to="/admin/create-job" className={linkClass}>
               <PlusCircle size={16} />
               Create Job
+            </NavLink>
+          ) : null}
+          {isAdmin ? (
+            <NavLink to="/admin/applicants" className={linkClass}>
+              <UserRoundSearch size={16} />
+              Applicants
             </NavLink>
           ) : null}
           {isAdmin ? (

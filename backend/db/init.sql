@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS applications (
   name TEXT NOT NULL,
   email TEXT NOT NULL,
   resume TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'applied',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 

@@ -7,6 +7,7 @@ import Layout from "./components/Layout.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
 import AdminCreateJob from "./pages/AdminCreateJob.jsx";
+import Applicants from "./pages/Applicants.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import { RequireAdmin } from "./auth/ProtectedRoute.jsx";
 
@@ -25,6 +26,14 @@ const App = () => {
           element={
             <RequireAdmin>
               <AdminCreateJob />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/applicants"
+          element={
+            <RequireAdmin>
+              <Applicants />
             </RequireAdmin>
           }
         />
