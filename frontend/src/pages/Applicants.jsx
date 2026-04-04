@@ -44,15 +44,37 @@ export default function Applicants() {
 
   const onStatusChange = async (id, status) => {
     if (!token) return;
-    setUpdatingId(id);
+    const targetId = Number(id);
+    let previousStatus = "applied";
+    setUpdatingId(targetId);
+
+    setApplications((prev) =>
+      prev.map((item) => {
+        if (Number(item.id) !== targetId) return item;
+        previousStatus = item.status || "applied";
+        return { ...item, status };
+      })
+    );
+
     try {
-      const request = updateApplicationStatus({ id, status, token });
-      const result = await toast.promise(request, {
+      const request = updateApplicationStatus({ id: targetId, status, token });
+      toast.promise(request, {
         loading: "Updating status...",
         success: `Moved to ${status}`,
         error: (err) => err?.message || "Failed to update status",
       });
-      setApplications((prev) => prev.map((item) => (item.id === id ? { ...item, ...result.application } : item)));
+      const result = await request;
+      setApplications((prev) =>
+        prev.map((item) =>
+          Number(item.id) === targetId
+            ? { ...item, ...result.application, status: result.application?.status || status }
+            : item
+        )
+      );
+    } catch {
+      setApplications((prev) =>
+        prev.map((item) => (Number(item.id) === targetId ? { ...item, status: previousStatus } : item))
+      );
     } finally {
       setUpdatingId(null);
     }
