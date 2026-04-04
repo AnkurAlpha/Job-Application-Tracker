@@ -22,13 +22,15 @@ const Layout = ({ children }) => {
         y: 16,
         duration: 0.42,
         stagger: 0.08,
+        clearProps: "opacity,transform",
       }).from(
-        ".route-anim-root .btn, .route-anim-root article",
+        ".route-anim-root .btn:not(.admin-create-submit-btn), .route-anim-root article",
         {
           opacity: 0,
           y: 10,
           duration: 0.28,
           stagger: 0.04,
+          clearProps: "opacity,transform",
         },
         "-=0.2"
       );
